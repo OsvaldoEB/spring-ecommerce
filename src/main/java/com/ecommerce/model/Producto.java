@@ -1,7 +1,13 @@
 package com.ecommerce.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "productos")
 public class Producto {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
     private String descripcion;
@@ -9,16 +15,21 @@ public class Producto {
     private double precio;
     private int cantidad;
 
+    //Se agrega la relación con la entitidad que le corresponde
+    @ManyToOne //Aquí no se agrega un mappedBy debido a que lo agregamos en la entitidad de mayor privilegio
+    private Usuario usuario;
+
     public Producto() {
     }
 
-    public Producto(Long id, String nombre, String descripcion, String imagen, double precio, int cantidad) {
+    public Producto(Long id, String nombre, String descripcion, String imagen, double precio, int cantidad, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
         this.precio = precio;
         this.cantidad = cantidad;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -67,6 +78,14 @@ public class Producto {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

@@ -1,7 +1,14 @@
 package com.ecommerce.model;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
     private String apellido1;
@@ -11,6 +18,13 @@ public class Usuario {
     private String telefono;
     private String tipoUsuario; //Cambiar para que se maneje una tabla de tipos de usuario
     private String contrasena;
+
+    //Se agrega lista para obtener los productos que se encuentran en la entidad(Tabla) Producto
+    @OneToMany(mappedBy = "usuario") //Se agrega mappedBy para que se relacione con la entidad que se desee. El nombre debe de ser identico al que se esta agregando en la entydad con la que tiene relación
+    private List<Producto> productos;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Orden> ordenes;
 
     public Long getId() {
         return id;
@@ -82,6 +96,22 @@ public class Usuario {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public List<Orden> getOrdenes() {
+        return ordenes;
+    }
+
+    public void setOrdenes(List<Orden> ordenes) {
+        this.ordenes = ordenes;
     }
 
     public Usuario() {
