@@ -18,6 +18,7 @@ public class Usuario {
     private String telefono;
     private String tipoUsuario; //Cambiar para que se maneje una tabla de tipos de usuario
     private String contrasena;
+    private Boolean estatus;
 
     //Se agrega lista para obtener los productos que se encuentran en la entidad(Tabla) Producto
     @OneToMany(mappedBy = "usuario") //Se agrega mappedBy para que se relacione con la entidad que se desee. El nombre debe de ser identico al que se esta agregando en la entydad con la que tiene relación
@@ -114,10 +115,18 @@ public class Usuario {
         this.ordenes = ordenes;
     }
 
+    public Boolean getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Boolean estatus) {
+        this.estatus = estatus;
+    }
+
     public Usuario() {
     }
 
-    public Usuario(Long id, String nombre, String apellido1, String apellido2, String email, String direccion, String telefono, String tipoUsuario, String contrasena) {
+    public Usuario(Long id, String nombre, String apellido1, String apellido2, String email, String direccion, String telefono, String tipoUsuario, String contrasena, Boolean estatus) {
         this.id = id;
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -127,6 +136,7 @@ public class Usuario {
         this.telefono = telefono;
         this.tipoUsuario = tipoUsuario;
         this.contrasena = contrasena;
+        this.estatus = estatus;
     }
 
     @Override
@@ -141,6 +151,7 @@ public class Usuario {
                 ", telefono='" + telefono + '\'' +
                 ", tipoUsuario='" + tipoUsuario + '\'' +
                 ", contrasena='" + contrasena + '\'' +
+                ", estatus=" + estatus +
                 '}';
     }
 }
