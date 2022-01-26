@@ -14,7 +14,7 @@ public class Producto {
     private String imagen;
     private double precio;
     private int cantidad;
-    private Boolean estatus;
+    private boolean estatus;
 
     //Se agrega la relación con la entitidad que le corresponde
     @ManyToOne //Aquí no se agrega un mappedBy debido a que lo agregamos en la entitidad de mayor privilegio
@@ -23,13 +23,14 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(Long id, String nombre, String descripcion, String imagen, double precio, int cantidad, Usuario usuario) {
+    public Producto(Long id, String nombre, String descripcion, String imagen, double precio, int cantidad, Boolean estatus, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
         this.precio = precio;
         this.cantidad = cantidad;
+        this.estatus = estatus;
         this.usuario = usuario;
     }
 
@@ -89,7 +90,15 @@ public class Producto {
         this.usuario = usuario;
     }
 
-    public Producto(Long id, String nombre, String descripcion, String imagen, double precio, int cantidad, Boolean estatus) {
+    public boolean isEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(boolean estatus) {
+        this.estatus = estatus;
+    }
+
+    public Producto(Long id, String nombre, String descripcion, String imagen, double precio, int cantidad, boolean estatus, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -97,6 +106,7 @@ public class Producto {
         this.precio = precio;
         this.cantidad = cantidad;
         this.estatus = estatus;
+        this.usuario = usuario;
     }
 
     @Override
