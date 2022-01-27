@@ -45,6 +45,7 @@ public class ProductoController {
         return "redirect:/productos";
     }
 
+    //Metodo para editar el producto seleccionado
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model){
         //Creamos un objeto tipo producto
@@ -59,12 +60,14 @@ public class ProductoController {
         return "productos/edit";
     }
 
+    //Metodo para actualizar la informacion del producto
     @PostMapping("/update")
     public String update(Producto producto){
         productoService.update(producto);
         return "redirect:/productos";
     }
 
+    //Metodo para eliminar (forma logica) un producto
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id){
         productoService.eliminar(id);
