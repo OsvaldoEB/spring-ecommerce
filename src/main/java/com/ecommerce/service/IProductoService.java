@@ -1,6 +1,7 @@
 package com.ecommerce.service;
 
 import com.ecommerce.model.Producto;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,7 @@ public interface IProductoService {
     public void update(Producto producto);
 
     //Eliminar producto, se utiliza baja de manera logica
-    public long delete(long id);
+    public int eliminar(@Param("id") long id);
 
     //Mostrar listado de productos
     public List<Producto> allProductActive();

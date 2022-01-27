@@ -31,9 +31,10 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     @Override
-    public long delete(long id) {
+    public int eliminar(long id) {
         return productoRepository.eliminar(id);
     }
+
 
     @Override
     public List<Producto> allProductActive() {
