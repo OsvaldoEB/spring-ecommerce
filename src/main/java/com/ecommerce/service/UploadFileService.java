@@ -13,11 +13,11 @@ import java.nio.file.Paths;
 public class UploadFileService {
 
     //Aquí se agrega la URL donde se van a guardar las imagenes
-    private String folder= "image//";
+    private String folder= "images//";
 
     public String saveImage(MultipartFile file) throws IOException {
         //IF que nos dice si la variable file se ecnuentra vacia
-        if (file.isEmpty()){
+        if (!file.isEmpty()){
             //pasar imagen a bytes
             byte [] bytes = file.getBytes();
             //Asignamos en que path queremos que se guarde
