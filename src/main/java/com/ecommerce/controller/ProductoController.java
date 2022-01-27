@@ -3,15 +3,15 @@ package com.ecommerce.controller;
 import com.ecommerce.model.Producto;
 import com.ecommerce.model.Usuario;
 import com.ecommerce.service.IProductoService;
+import com.ecommerce.service.UploadFileService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -22,6 +22,10 @@ public class ProductoController {
 
     @Autowired
     private IProductoService productoService;
+
+    //Inyectamos la clase UploadFileService
+    @Autowired
+    private UploadFileService uploadFileService;
 
     @GetMapping("")
     public String getShow(Model model){
@@ -37,10 +41,24 @@ public class ProductoController {
 
     //Metodo que devuelve la vista para almacenar un producto
     @PostMapping("/save")
-    public String save(Producto producto){
+    public String save(Producto producto, @RequestParam("img") MultipartFile file) throws IOException {
         LOGGER.info("Este es el objeto producto {}", producto);
         Usuario u = new Usuario((long) 1, "", "", "", "", "", "", "", "", true);
         producto.setUsuario(u);
+        //imagen
+        if(producto.getId()==null){ //validacion cuando se crea un producto
+            String nombreImagen = uploadFileService.saveImage(file);
+            producto.setImagen(nombreImagen);
+        } else{
+            if(file.isEmpty()){ //Cuando editamos el producto pero no cambiamos la imagen
+                Producto p = new Producto();
+                p=productoService.get(producto.getId()).get();
+                producto.setImagen(p.getImagen());
+            }else{
+                String nombreImagen = uploadFileService.saveImage(file);
+                producto.setImagen(nombreImagen);
+            }
+        }
         productoService.save(producto);
         return "redirect:/productos";
     }
