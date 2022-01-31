@@ -68,7 +68,7 @@ public class HomeController {
         //Obtenemos el producto que se va a agregar al carrito
         Optional<Producto> optionalProducto = productoService.get(id);
         log.info("Producto añadido: {}", optionalProducto.get());
-        log.info("Cantidad: {}", cantidad);
+        log.info("Cantidad: {}", Integer.valueOf((int) cantidad));
         producto = optionalProducto.get();
 
         //Obtenemos los datos para la vista carrito
