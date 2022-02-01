@@ -49,8 +49,11 @@ public class HomeController {
     //Metodo para visualizar el home del usuario normal
     @GetMapping("")
     public String home(Model model, HttpSession session){
+
         model.addAttribute("productos", productoService.allProductActive());
         log.info("Session usuario: {}" , session.getAttribute("idUsuario"));
+        //session
+        model.addAttribute("sesion", session.getAttribute("idUsuario"));
         return "usuario/home";
     }
 
@@ -178,10 +181,12 @@ public class HomeController {
     }
 
     @GetMapping("/getCart")
-    public String getCart(Model model){
+    public String getCart(Model model, HttpSession session){
 
         model.addAttribute("cart", detalles);
         model.addAttribute("orden", orden);
+        //Sesion
+        model.addAttribute("sesion", session.getAttribute("idUsuario"));
         return "/usuario/carrito";
     }
 
