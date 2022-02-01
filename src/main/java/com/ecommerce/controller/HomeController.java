@@ -4,6 +4,8 @@ import com.ecommerce.model.DetalleOrden;
 import com.ecommerce.model.Orden;
 import com.ecommerce.model.Producto;
 import com.ecommerce.model.Usuario;
+import com.ecommerce.service.IDetalleOrdenService;
+import com.ecommerce.service.IOrdenService;
 import com.ecommerce.service.IProductoService;
 import com.ecommerce.service.IUsuarioService;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,12 @@ public class HomeController {
 
     @Autowired
     private IUsuarioService usuarioService;
+
+    @Autowired
+    private IOrdenService ordenService;
+
+    @Autowired
+    private IDetalleOrdenService detalleOrdenService;
 
     //Variable para almacenar los detalles de la orden
     List<DetalleOrden> detalles = new ArrayList<DetalleOrden>();
@@ -173,6 +182,7 @@ public class HomeController {
         return "/usuario/carrito";
     }
 
+    //Metodo para agregar los datos a  la orden
     @GetMapping("/order")
     public String order(Model model){
 
@@ -182,6 +192,32 @@ public class HomeController {
         model.addAttribute("orden", orden);
         model.addAttribute("usuario", usuario);
         return "/usuario/resumenorden";
+    }
+
+    //Metodo para guardar la orden
+    @GetMapping("/saveOrder")
+    public String saveOrder(){
+        Date fechaCreacion = new Date();
+        orden.setFechaCreacion(fechaCreacion);
+        orden.setNumero(ordenService.generarNumeroOrden());
+
+        //Usuario que hace referencia a la orden
+        Usuario usuario = usuarioService.findById(1).get();
+        orden.setUsuario(usuario);
+
+        ordenService.save(orden);
+
+        //Guardar detalles
+        for (DetalleOrden dt : detalles){
+            dt.setOrden(orden);
+            detalleOrdenService.save(dt);
+        }
+
+        //Limpiar lista y orden valores que tiene nuestro detalle
+        orden = new Orden();
+        detalles.clear();
+
+        return "redirect:/";
     }
 
 }
