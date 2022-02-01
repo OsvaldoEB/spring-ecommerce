@@ -3,7 +3,9 @@ package com.ecommerce.controller;
 import com.ecommerce.model.Producto;
 import com.ecommerce.model.Usuario;
 import com.ecommerce.service.IProductoService;
+import com.ecommerce.service.IUsuarioService;
 import com.ecommerce.service.UploadFileService;
+import com.ecommerce.service.implementation.UsuarioServiceImpl;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -27,6 +30,9 @@ public class ProductoController {
     @Autowired
     private UploadFileService uploadFileService;
 
+    @Autowired
+    private IUsuarioService usuarioService;
+
     @GetMapping("")
     public String getShow(Model model){
         model.addAttribute("productos", productoService.allProductActive());
@@ -41,9 +47,10 @@ public class ProductoController {
 
     //Metodo que devuelve la vista para almacenar un producto
     @PostMapping("/save")
-    public String save(Producto producto, @RequestParam("img") MultipartFile file) throws IOException {
+    public String save(Producto producto, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
         LOGGER.info("Este es el objeto producto {}", producto);
-        Usuario u = new Usuario((long) 1, "", "", "", "", "", "", "", "", true);
+
+        Usuario u = usuarioService.findById(Integer.parseInt(session.getAttribute("idUsuario").toString() )).get();
         producto.setUsuario(u);
         //imagen
         if(producto.getId()==null){ //validacion cuando se crea un producto
