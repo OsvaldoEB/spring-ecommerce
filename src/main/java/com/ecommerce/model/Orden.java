@@ -2,6 +2,7 @@ package com.ecommerce.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "ordenes")
@@ -18,8 +19,8 @@ public class Orden {
     @ManyToOne
     private Usuario usuario;
 
-    @OneToOne(mappedBy = "orden") //Aquí estamos haciendo una relacion 1:1 y mappeamos con el nombre "orden"
-    private DetalleOrden detalle;
+    @OneToMany(mappedBy = "orden") //Aquí estamos haciendo una relacion 1:1 y mappeamos con el nombre "orden"
+    private List <DetalleOrden> detalle;
 
     public Orden() {
     }
@@ -81,11 +82,11 @@ public class Orden {
         this.usuario = usuario;
     }
 
-    public DetalleOrden getDetalle() {
+    public List<DetalleOrden> getDetalle() {
         return detalle;
     }
 
-    public void setDetalle(DetalleOrden detalle) {
+    public void setDetalle(List<DetalleOrden> detalle) {
         this.detalle = detalle;
     }
 
