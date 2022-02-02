@@ -6,6 +6,7 @@ import com.ecommerce.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
@@ -13,6 +14,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+
+    @Override
+    public List<Usuario> allUserActive() {
+        return usuarioRepository.allUserActive();
+    }
 
     @Override
     public Optional<Usuario> findById(long id) {
